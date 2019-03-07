@@ -1,0 +1,22 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+dependencies {
+    compileOnly 'net.md-5:bungeecord-api:1.13-SNAPSHOT'
+    compile project(':placeholdersplus-common')
+}
+
+jar {
+    finalizedBy shadowJar
+}
+
+shadowJar {
+    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.bungee.hook'
+}
+
+processResources {
+    filter(ReplaceTokens, tokens: ['VERSION': project.version])
+}

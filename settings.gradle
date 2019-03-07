@@ -1,0 +1,3 @@
+rootProject.name = 'placeholdersplus'
+
+include 'placeholdersplus-hook', 'placeholdersplus-common', 'placeholdersplus-bukkit', 'placeholdersplus-bungee', 'placeholdersplus-sponge', 'placeholdersplus-velocity'

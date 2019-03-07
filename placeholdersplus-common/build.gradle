@@ -1,0 +1,6 @@
+apply plugin: 'java'
+
+dependencies {
+    compile project(':placeholdersplus-hook')
+    compile 'net.kyori:text-api:2.0.0-SNAPSHOT'
+}

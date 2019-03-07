@@ -1,0 +1,5 @@
+main: me.vankka.placeholdersplus.plugin.bukkit.PlaceholdersPlusBukkit
+name: PlaceholdersPlus
+version: @VERSION@
+author: Vankka
+api-version: 1.13

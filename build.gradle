@@ -1,0 +1,18 @@
+allprojects {
+    apply plugin: 'java'
+
+    group 'me.vankka'
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' } // Bukkit
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // Bungeecord
+        maven { url 'https://repo.velocitypowered.com/snapshots/' } // Velocity
+        maven { url 'https://repo.spongepowered.org/maven' } // Sponge
+        maven { url 'https://jitpack.io' }
+    }
+}

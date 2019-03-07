@@ -1,0 +1,22 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+dependencies {
+    compileOnly 'org.bukkit:bukkit:1.13-R0.1-SNAPSHOT'
+    compile project(':placeholdersplus-common')
+}
+
+jar {
+    finalizedBy shadowJar
+}
+
+shadowJar {
+    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.bukkit.hook'
+}
+
+processResources {
+    filter(ReplaceTokens, tokens: ['VERSION': project.version])
+}

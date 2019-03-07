@@ -1,0 +1,20 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
+    id 'org.spongepowered.plugin' version '0.9.0'
+}
+
+dependencies {
+    compileOnly 'org.spongepowered:spongeapi:7.0.0'
+    compile project(':placeholdersplus-common')
+}
+
+jar {
+    finalizedBy shadowJar
+}
+
+shadowJar {
+    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.sponge.hook'
+}
+
+sponge.plugin.id = 'placeholdersplus'
+sponge.plugin.meta.version = project.version

@@ -1,0 +1,17 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '4.0.3'
+}
+
+dependencies {
+    annotationProcessor 'com.velocitypowered:velocity-api:1.0-SNAPSHOT'
+    compileOnly 'com.velocitypowered:velocity-api:1.0-SNAPSHOT'
+    compile project(':placeholdersplus-common')
+}
+
+jar {
+    finalizedBy shadowJar
+}
+
+shadowJar {
+    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.velocity.hook'
+}
