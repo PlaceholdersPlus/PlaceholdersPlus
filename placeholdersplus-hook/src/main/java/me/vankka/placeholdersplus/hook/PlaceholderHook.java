@@ -72,10 +72,9 @@ public class PlaceholderHook implements IPlaceholderHook {
     }
 
     /**
-     * Adds placeholder replacers to this PlaceholderHook
-     *
-     * @param placeholderReplacers the replacers to be added
+     * @inheritDoc
      */
+    @Override
     public void addPlaceholderReplacers(PlaceholderReplacer... placeholderReplacers) {
         for (PlaceholderReplacer placeholderReplacer : placeholderReplacers)
             if (!replacers.contains(placeholderReplacer))
@@ -83,20 +82,15 @@ public class PlaceholderHook implements IPlaceholderHook {
     }
 
     /**
-     * Removes placeholder replacers from this PlaceholderHook
-     *
-     * @param placeholderReplacers the replacers to be removed
+     * @inheritDoc
      */
+    @Override
     public void removePlaceholderReplacers(PlaceholderReplacer... placeholderReplacers) {
         replacers.removeAll(Arrays.asList(placeholderReplacers));
     }
 
     /**
-     * Looks up a placeholder replacement from all available PlaceholderHook's replacers.
-     *
-     * @param placeholder The placeholder
-     * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
-     * @return The result of the placeholder lookup
+     * @inheritDoc
      */
     @Override
     public PlaceholderLookupResult getPlaceholderReplacement(final String placeholder, final Object... extraObjects) {
@@ -114,11 +108,7 @@ public class PlaceholderHook implements IPlaceholderHook {
     }
 
     /**
-     * Looks up a placeholder replacement <b>only from this</b> PlaceholderHook's replacers.
-     *
-     * @param placeholder The placeholder
-     * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
-     * @return The result of the placeholder lookup
+     * @inheritDoc
      */
     @Override
     public PlaceholderLookupResult getPlaceholderReplacementFromHook(final String placeholder, final Object... extraObjects) {
@@ -169,11 +159,7 @@ public class PlaceholderHook implements IPlaceholderHook {
     }
 
     /**
-     * Replaces placeholders from all available PlaceholderHook's replacers.
-     *
-     * @param input Input string
-     * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
-     * @return Output string with placeholders replaced
+     * @inheritDoc
      */
     @Override
     public String replacePlaceholders(final String input, final Object... extraObjects) {
@@ -191,11 +177,7 @@ public class PlaceholderHook implements IPlaceholderHook {
     }
 
     /**
-     * Replaces placeholders <b>only from this</b> PlaceholderHook's replacers.
-     *
-     * @param input Input string
-     * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
-     * @return Output string with placeholders replaced
+     * @inheritDoc
      */
     @Override
     public String replacePlaceholdersFromHook(final String input, final Object... extraObjects) {
@@ -219,19 +201,17 @@ public class PlaceholderHook implements IPlaceholderHook {
     }
 
     /**
-     * If the plugin is hooked (PlaceholderHook's from other plugins are available)
-     *
-     * @return weather or not the PlaceholdersPlus is hooked
+     * @inheritDoc
      */
+    @Override
     public boolean isPluginHooked() {
         return pluginHooked;
     }
 
     /**
-     * Set the logger used for this PlaceholderHook
-     *
-     * @param logger {@link Logger} implementation
+     * @inheritDoc
      */
+    @Override
     public void setLogger(Logger logger) {
         this.logger = logger;
     }
