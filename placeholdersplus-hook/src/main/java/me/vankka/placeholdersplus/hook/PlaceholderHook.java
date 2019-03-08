@@ -98,6 +98,7 @@ public class PlaceholderHook implements IPlaceholderHook {
      * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
      * @return The result of the placeholder lookup
      */
+    @Override
     public PlaceholderLookupResult getPlaceholderReplacement(final String placeholder, final Object... extraObjects) {
         if (pluginHooked) {
             try {
@@ -174,6 +175,7 @@ public class PlaceholderHook implements IPlaceholderHook {
      * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
      * @return Output string with placeholders replaced
      */
+    @Override
     public String replacePlaceholders(final String input, final Object... extraObjects) {
         if (pluginHooked) {
             try {
