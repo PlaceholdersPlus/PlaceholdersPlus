@@ -28,6 +28,11 @@ public class PlaceholdersPlusBungee extends Plugin implements PlaceholdersPlusPl
     }
 
     @Override
+    public PlaceholderHook getPlaceholderHook() {
+        return PlaceholderHook.getInstance();
+    }
+
+    @Override
     public ModuleManager getModuleManager() {
         return moduleManager;
     }

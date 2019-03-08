@@ -28,6 +28,11 @@ public class PlaceholdersPlusBukkit extends JavaPlugin implements PlaceholdersPl
     }
 
     @Override
+    public PlaceholderHook getPlaceholderHook() {
+        return PlaceholderHook.getInstance();
+    }
+
+    @Override
     public ModuleManager getModuleManager() {
         return moduleManager;
     }

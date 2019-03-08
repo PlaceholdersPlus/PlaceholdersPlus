@@ -49,6 +49,11 @@ public class PlaceholdersPlusSponge implements PlaceholdersPlusPlugin {
     }
 
     @Override
+    public PlaceholderHook getPlaceholderHook() {
+        return PlaceholderHook.getInstance();
+    }
+
+    @Override
     public ModuleManager getModuleManager() {
         return moduleManager;
     }

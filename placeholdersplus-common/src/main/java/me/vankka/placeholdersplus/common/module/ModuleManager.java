@@ -119,7 +119,7 @@ public class ModuleManager {
     }
 
     public void enable(PlaceholdersPlusModule module) {
-        module.enable();
+        module.enable(plugin);
         modules.add(module);
     }
 
@@ -129,6 +129,6 @@ public class ModuleManager {
 
     public void disable(PlaceholdersPlusModule module) {
         modules.remove(module);
-        module.disable();
+        module.disable(plugin);
     }
 }

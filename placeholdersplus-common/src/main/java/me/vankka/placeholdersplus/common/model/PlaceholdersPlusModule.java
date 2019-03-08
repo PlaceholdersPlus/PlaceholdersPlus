@@ -7,6 +7,6 @@ public abstract class PlaceholdersPlusModule {
     protected PlaceholderHook placeholderHook = PlaceholderHook.getInstance();
 
     public void load() {}
-    public void enable() {}
-    public void disable() {}
+    public void enable(PlaceholdersPlusPlugin plugin) {}
+    public void disable(PlaceholdersPlusPlugin plugin) {}
 }
