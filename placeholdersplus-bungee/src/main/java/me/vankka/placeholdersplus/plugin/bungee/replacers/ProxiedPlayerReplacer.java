@@ -1,7 +1,7 @@
 package me.vankka.placeholdersplus.plugin.bungee.replacers;
 
-import me.vankka.placeholdersplus.common.object.PlaceholderReplacer;
-import me.vankka.placeholdersplus.common.object.Replacement;
+import me.vankka.placeholdersplus.common.model.PlaceholderReplacer;
+import me.vankka.placeholdersplus.common.model.Replacement;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.util.UUID;

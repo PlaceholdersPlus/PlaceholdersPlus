@@ -1,8 +1,8 @@
 package me.vankka.placeholdersplus.plugin.velocity.replacers;
 
 import com.velocitypowered.api.proxy.Player;
-import me.vankka.placeholdersplus.common.object.PlaceholderReplacer;
-import me.vankka.placeholdersplus.common.object.Replacement;
+import me.vankka.placeholdersplus.common.model.PlaceholderReplacer;
+import me.vankka.placeholdersplus.common.model.Replacement;
 
 import java.util.UUID;
 

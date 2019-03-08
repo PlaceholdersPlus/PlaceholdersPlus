@@ -1,4 +1,4 @@
-package me.vankka.placeholdersplus.common.object;
+package me.vankka.placeholdersplus.common.model;
 
 import java.util.List;
 

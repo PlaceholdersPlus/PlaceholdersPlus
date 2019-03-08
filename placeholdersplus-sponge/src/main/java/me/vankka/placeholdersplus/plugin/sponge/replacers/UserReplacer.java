@@ -1,7 +1,7 @@
 package me.vankka.placeholdersplus.plugin.sponge.replacers;
 
-import me.vankka.placeholdersplus.common.object.PlaceholderReplacer;
-import me.vankka.placeholdersplus.common.object.Replacement;
+import me.vankka.placeholdersplus.common.model.PlaceholderReplacer;
+import me.vankka.placeholdersplus.common.model.Replacement;
 import org.spongepowered.api.entity.living.player.User;
 
 import java.util.UUID;

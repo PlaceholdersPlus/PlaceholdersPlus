@@ -1,7 +1,7 @@
 package me.vankka.placeholdersplus.plugin.bukkit.replacers;
 
-import me.vankka.placeholdersplus.common.object.PlaceholderReplacer;
-import me.vankka.placeholdersplus.common.object.Replacement;
+import me.vankka.placeholdersplus.common.model.PlaceholderReplacer;
+import me.vankka.placeholdersplus.common.model.Replacement;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

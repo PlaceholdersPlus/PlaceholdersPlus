@@ -1,11 +1,12 @@
 package me.vankka.placeholdersplus.hook;
 
+import me.vankka.placeholdersplus.common.IPlaceholderHook;
 import me.vankka.placeholdersplus.common.logger.DefaultLogger;
 import me.vankka.placeholdersplus.common.logger.Logger;
-import me.vankka.placeholdersplus.common.object.PlaceholderLookupResult;
-import me.vankka.placeholdersplus.common.object.PlaceholderReplacer;
-import me.vankka.placeholdersplus.common.object.Placeholderable;
-import me.vankka.placeholdersplus.common.object.Replacement;
+import me.vankka.placeholdersplus.common.model.PlaceholderLookupResult;
+import me.vankka.placeholdersplus.common.model.PlaceholderReplacer;
+import me.vankka.placeholdersplus.common.model.Placeholderable;
+import me.vankka.placeholdersplus.common.model.Replacement;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -18,8 +19,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@SuppressWarnings({"unused", "unchecked", "Duplicates", "WeakerAccess"})
-public class PlaceholderHook {
+@SuppressWarnings({"unused", "unchecked", "Duplicates"})
+public class PlaceholderHook implements IPlaceholderHook {
 
     private static final String unrelocatedClassName = new String(new byte[]{'m', 'e', '.'})
             + "vankka.placeholdersplus.hook.PlaceholderHook";
@@ -29,15 +30,10 @@ public class PlaceholderHook {
     private final List<PlaceholderReplacer> replacers = new LinkedList<>();
     private final Pattern pattern = Pattern.compile("%([^%]+)%");
     private final boolean pluginHooked;
-    private Logger logger = new DefaultLogger();
-
-    private PlaceholderHook() {
-        this(null);
-    }
+    private Logger logger;
 
     private PlaceholderHook(Logger logger) {
-        if (logger != null)
-            this.logger = logger;
+        this.logger = logger != null ? logger : new DefaultLogger();
         this.pluginHooked = hookPlatformPlugin();
         this.logger.info("PlaceholderHook loaded, plugin hooked: " + pluginHooked);
     }
@@ -61,11 +57,7 @@ public class PlaceholderHook {
         if (PlaceholderHook.class.getName().equals(unrelocatedClassName))
             throw new RuntimeException("PlaceholderHook class not relocated, this is unsupported");
 
-        if (logger != null)
-            instance = new PlaceholderHook();
-        else
-            instance = new PlaceholderHook();
-
+        instance = new PlaceholderHook(logger);
         return instance;
     }
 
@@ -127,6 +119,7 @@ public class PlaceholderHook {
      * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
      * @return The result of the placeholder lookup
      */
+    @Override
     public PlaceholderLookupResult getPlaceholderReplacementFromHook(final String placeholder, final Object... extraObjects) {
         PlaceholderLookupResult bestNonSuccessfulResult = null;
 
@@ -137,7 +130,7 @@ public class PlaceholderHook {
             List<Object> objects = new ArrayList<>(Arrays.asList(extraObjects));
             objects.add(placeholderable);
 
-            PlaceholderLookupResult result = getResultFromClass(placeholder, placeholderable, objects);
+            PlaceholderLookupResult result = getResultFromClass(logger, placeholder, placeholderable, objects);
             if (result != null) {
                 switch (result.getResultType()) {
                     case SUCCESS:
@@ -149,7 +142,8 @@ public class PlaceholderHook {
         }
 
         for (PlaceholderReplacer replacer : replacers) {
-            PlaceholderLookupResult result = getResultFromClass(placeholder, replacer, new ArrayList<>(Arrays.asList(extraObjects)));
+            PlaceholderLookupResult result = getResultFromClass(
+                    logger, placeholder, replacer, new ArrayList<>(Arrays.asList(extraObjects)));
             if (result != null) {
                 switch (result.getResultType()) {
                     case SUCCESS:
@@ -201,6 +195,7 @@ public class PlaceholderHook {
      * @param extraObjects Objects to be used for placeholder replacements and {@link Placeholderable}s
      * @return Output string with placeholders replaced
      */
+    @Override
     public String replacePlaceholdersFromHook(final String input, final Object... extraObjects) {
         Matcher matcher = pattern.matcher(input);
 
@@ -243,15 +238,16 @@ public class PlaceholderHook {
     private boolean hookPlatformPlugin() {
         try {
             Class placeholderService = Class.forName(placeholderServiceClassName);
-            placeholderService.getMethod("hook", PlaceholderHook.class).invoke(null, this);
+            placeholderService.getMethod("hook", IPlaceholderHook.class).invoke(null, this);
 
             return true;
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
-            return false;
-        }
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException exception) {
+            logger.error("Error while hooking into plugin", exception);
+        } catch (ClassNotFoundException ignored) {}
+        return false;
     }
 
-    private PlaceholderLookupResult getResultFromClass(String placeholder, Object object, List<Object> extraObjects) {
+    private PlaceholderLookupResult getResultFromClass(Logger logger, String placeholder, Object object, List<Object> extraObjects) {
         for (Field field : object.getClass().getFields()) {
             Replacement replacement = field.getAnnotation(Replacement.class);
             if (replacement == null || !replacement.placeholder().equals(placeholder))
