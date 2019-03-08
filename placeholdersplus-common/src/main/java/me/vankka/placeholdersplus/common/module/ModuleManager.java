@@ -1,6 +1,6 @@
 package me.vankka.placeholdersplus.common.module;
 
-import me.vankka.placeholdersplus.common.model.Module;
+import me.vankka.placeholdersplus.common.model.PlaceholdersPlusModule;
 import me.vankka.placeholdersplus.common.model.PlaceholdersPlusPlugin;
 
 import java.io.File;
@@ -19,7 +19,7 @@ import java.util.jar.JarInputStream;
 public class ModuleManager {
 
     private final PlaceholdersPlusPlugin plugin;
-    private final List<Module> modules = new ArrayList<>();
+    private final List<PlaceholdersPlusModule> modules = new ArrayList<>();
 
     public ModuleManager(PlaceholdersPlusPlugin plugin) {
         this.plugin = plugin;
@@ -69,7 +69,7 @@ public class ModuleManager {
                         name = name.replace("/", ".");
                         name = name.substring(0, name.lastIndexOf(".class"));
                         Class<?> clazz = urlClassLoader.loadClass(name);
-                        if (clazz != null && clazz.isAssignableFrom(Module.class))
+                        if (clazz != null && clazz.isAssignableFrom(PlaceholdersPlusModule.class))
                             classes.add(clazz);
                     }
                 }
@@ -86,7 +86,7 @@ public class ModuleManager {
 
         Class<?> clazz = classes.get(0);
 
-        Module module = null;
+        PlaceholdersPlusModule module = null;
         for (Constructor<?> constructor : clazz.getConstructors()) {
             if (constructor.getParameterCount() > 0)
                 continue;
@@ -95,7 +95,7 @@ public class ModuleManager {
                 constructor.setAccessible(true);
 
             try {
-                module = (Module) constructor.newInstance();
+                module = (PlaceholdersPlusModule) constructor.newInstance();
                 break;
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException exception) {
                 plugin.logger().error("Failed to initiate class "
@@ -118,7 +118,7 @@ public class ModuleManager {
         modules.forEach(this::enable);
     }
 
-    public void enable(Module module) {
+    public void enable(PlaceholdersPlusModule module) {
         module.enable();
         modules.add(module);
     }
@@ -127,7 +127,7 @@ public class ModuleManager {
         modules.forEach(this::disable);
     }
 
-    public void disable(Module module) {
+    public void disable(PlaceholdersPlusModule module) {
         modules.remove(module);
         module.disable();
     }

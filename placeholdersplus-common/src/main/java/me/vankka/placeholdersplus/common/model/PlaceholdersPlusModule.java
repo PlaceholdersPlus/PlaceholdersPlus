@@ -2,7 +2,7 @@ package me.vankka.placeholdersplus.common.model;
 
 import me.vankka.placeholdersplus.hook.PlaceholderHook;
 
-public abstract class Module {
+public abstract class PlaceholdersPlusModule {
 
     protected PlaceholderHook placeholderHook = PlaceholderHook.getInstance();
 
