@@ -7,6 +7,7 @@ import me.vankka.placeholdersplus.common.module.ModuleManager;
 import me.vankka.placeholdersplus.hook.PlaceholderHook;
 import me.vankka.placeholdersplus.plugin.sponge.replacers.PlayerReplacer;
 import me.vankka.placeholdersplus.plugin.sponge.replacers.UserReplacer;
+import org.spongepowered.api.Game;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
@@ -15,11 +16,14 @@ import org.spongepowered.api.plugin.Plugin;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 @Plugin(id = "placeholdersplus", name = "PlaceholdersPlus", authors = {"Vankka"})
 public class PlaceholdersPlusSponge implements PlaceholdersPlusPlugin {
 
-    private final ModuleManager moduleManager = new ModuleManager(this);
+    @Inject
+    private Game game;
+    private ModuleManager moduleManager;
 
     @Inject
     @ConfigDir(sharedRoot = false)
@@ -41,6 +45,9 @@ public class PlaceholdersPlusSponge implements PlaceholdersPlusPlugin {
                 new PlayerReplacer(),
                 new UserReplacer()
         );
+
+        game.getScheduler().createSyncExecutor(this).schedule(() -> moduleManager =
+                new ModuleManager(this, getClass().getClassLoader()), 0L, TimeUnit.SECONDS);
     }
 
     @Listener

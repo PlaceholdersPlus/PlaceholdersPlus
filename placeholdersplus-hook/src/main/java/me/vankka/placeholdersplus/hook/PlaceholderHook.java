@@ -76,9 +76,10 @@ public class PlaceholderHook implements IPlaceholderHook {
      */
     @Override
     public void addPlaceholderReplacers(PlaceholderReplacer... placeholderReplacers) {
-        for (PlaceholderReplacer placeholderReplacer : placeholderReplacers)
+        for (PlaceholderReplacer placeholderReplacer : placeholderReplacers) {
             if (!replacers.contains(placeholderReplacer))
                 replacers.add(placeholderReplacer);
+        }
     }
 
     /**
@@ -133,8 +134,8 @@ public class PlaceholderHook implements IPlaceholderHook {
         }
 
         for (PlaceholderReplacer replacer : replacers) {
-            PlaceholderLookupResult result = getResultFromClass(
-                    logger, placeholder, replacer, new ArrayList<>(Arrays.asList(extraObjects)));
+            PlaceholderLookupResult result = getResultFromClass(logger, placeholder,
+                    replacer, new ArrayList<>(Arrays.asList(extraObjects)));
             if (result != null) {
                 switch (result.getResultType()) {
                     case SUCCESS:
@@ -216,6 +217,19 @@ public class PlaceholderHook implements IPlaceholderHook {
         this.logger = logger;
     }
 
+    /**
+     * @inheritDoc
+     */
+    @Override
+    public void shutdown() {
+        try {
+            Class placeholderService = Class.forName(placeholderServiceClassName);
+            placeholderService.getMethod("unhook", IPlaceholderHook.class).invoke(null, this);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException exception) {
+            logger.error("Error while unhooking into plugin", exception);
+        } catch (ClassNotFoundException ignored) {}
+    }
+
     @SuppressWarnings("unchecked")
     private boolean hookPlatformPlugin() {
         try {
@@ -230,7 +244,7 @@ public class PlaceholderHook implements IPlaceholderHook {
     }
 
     private PlaceholderLookupResult getResultFromClass(Logger logger, String placeholder, Object object, List<Object> extraObjects) {
-        for (Field field : object.getClass().getFields()) {
+        for (Field field : object.getClass().getDeclaredFields()) {
             Replacement replacement = field.getAnnotation(Replacement.class);
             if (replacement == null || !replacement.placeholder().equals(placeholder))
                 continue;

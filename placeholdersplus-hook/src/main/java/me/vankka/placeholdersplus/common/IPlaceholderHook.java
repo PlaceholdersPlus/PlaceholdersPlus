@@ -70,4 +70,9 @@ public interface IPlaceholderHook {
      * @param logger {@link Logger} implementation
      */
     void setLogger(Logger logger);
+
+    /**
+     * Shuts down this PlaceholderHook
+     */
+    void shutdown();
 }

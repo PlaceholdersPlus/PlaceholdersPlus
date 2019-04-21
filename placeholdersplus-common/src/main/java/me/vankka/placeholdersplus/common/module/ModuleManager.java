@@ -18,11 +18,14 @@ import java.util.jar.JarInputStream;
 
 public class ModuleManager {
 
-    private final PlaceholdersPlusPlugin plugin;
     private final List<PlaceholdersPlusModule> modules = new ArrayList<>();
+    private final PlaceholdersPlusPlugin plugin;
+    private final ClassLoader classLoader;
 
-    public ModuleManager(PlaceholdersPlusPlugin plugin) {
+    public ModuleManager(PlaceholdersPlusPlugin plugin, ClassLoader classLoader) {
         this.plugin = plugin;
+        this.classLoader = classLoader;
+
         loadModules();
         enableAll();
     }
@@ -52,7 +55,7 @@ public class ModuleManager {
 
         try {
             URL url = file.toURI().toURL();
-            try (URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url})) {
+            try (URLClassLoader urlClassLoader = new URLClassLoader(new URL[]{url}, classLoader)) {
                 try (JarInputStream inputStream = new JarInputStream(url.openStream())) {
                     while (true) {
                         JarEntry jarEntry = inputStream.getNextJarEntry();
@@ -68,8 +71,9 @@ public class ModuleManager {
 
                         name = name.replace("/", ".");
                         name = name.substring(0, name.lastIndexOf(".class"));
+
                         Class<?> clazz = urlClassLoader.loadClass(name);
-                        if (clazz != null && clazz.isAssignableFrom(PlaceholdersPlusModule.class))
+                        if (clazz != null && clazz.getSuperclass().isAssignableFrom(PlaceholdersPlusModule.class))
                             classes.add(clazz);
                     }
                 }
@@ -111,6 +115,8 @@ public class ModuleManager {
         }
 
         module.load();
+        modules.add(module);
+        plugin.logger().info("Successfully loaded module, " + file.getName());
         return true;
     }
 
@@ -120,7 +126,6 @@ public class ModuleManager {
 
     public void enable(PlaceholdersPlusModule module) {
         module.enable(plugin);
-        modules.add(module);
     }
 
     public void disableAll() {
@@ -128,7 +133,6 @@ public class ModuleManager {
     }
 
     public void disable(PlaceholdersPlusModule module) {
-        modules.remove(module);
         module.disable(plugin);
     }
 }

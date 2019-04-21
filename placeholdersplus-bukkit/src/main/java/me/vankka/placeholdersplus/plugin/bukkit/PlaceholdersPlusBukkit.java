@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PlaceholdersPlusBukkit extends JavaPlugin implements PlaceholdersPlusPlugin {
 
     private Logger logger;
-    private final ModuleManager moduleManager = new ModuleManager(this);
+    private ModuleManager moduleManager;
 
     @Override
     public void onEnable() {
@@ -25,6 +25,9 @@ public class PlaceholdersPlusBukkit extends JavaPlugin implements PlaceholdersPl
         placeholderHook.addPlaceholderReplacers(
                 new PlayerReplacer()
         );
+
+        getServer().getScheduler().runTaskLater(
+                this, () -> moduleManager = new ModuleManager(this, getClassLoader()), 0L);
     }
 
     @Override

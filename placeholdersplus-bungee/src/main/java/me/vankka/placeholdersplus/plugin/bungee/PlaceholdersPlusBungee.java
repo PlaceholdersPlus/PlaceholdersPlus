@@ -8,11 +8,13 @@ import me.vankka.placeholdersplus.hook.PlaceholderHook;
 import me.vankka.placeholdersplus.plugin.bungee.replacers.ProxiedPlayerReplacer;
 import net.md_5.bungee.api.plugin.Plugin;
 
+import java.util.concurrent.TimeUnit;
+
 @SuppressWarnings("unused")
 public class PlaceholdersPlusBungee extends Plugin implements PlaceholdersPlusPlugin {
 
     private Logger logger;
-    private final ModuleManager moduleManager = new ModuleManager(this);
+    private ModuleManager moduleManager;
 
     @Override
     public void onEnable() {
@@ -25,6 +27,9 @@ public class PlaceholdersPlusBungee extends Plugin implements PlaceholdersPlusPl
         placeholderHook.addPlaceholderReplacers(
                 new ProxiedPlayerReplacer()
         );
+
+        getProxy().getScheduler().schedule(this, () -> moduleManager =
+                new ModuleManager(this, getClass().getClassLoader()), 0L, TimeUnit.SECONDS);
     }
 
     @Override
