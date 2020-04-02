@@ -1,6 +1,28 @@
 apply plugin: 'java'
 
 dependencies {
+    // PlaceholderHook
     compile project(':placeholdersplus-hook')
-    compile 'net.kyori:text-api:2.0.0'
+
+    // Text
+    compile 'net.kyori:text-api:3.0.2'
+    compile 'net.kyori:text-serializer-legacy:3.0.2'
+
+    // Config
+    compile 'org.spongepowered:configurate-hocon:3.6'
+
+    // JSON
+    compile 'org.json:json:20190722'
+
+    // GitHub API
+    compile 'org.kohsuke:github-api:1.101'
+
+    // Annotations
+    compileOnly 'org.jetbrains:annotations:18.0.0'
+}
+
+jar {
+    from configurations.compile.collect {
+        it.getName().endsWith('.jar') ? zipTree(it) : it
+    }
 }

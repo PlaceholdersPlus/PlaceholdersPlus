@@ -5,8 +5,14 @@ plugins {
 import org.apache.tools.ant.filters.ReplaceTokens
 
 dependencies {
-    compileOnly 'org.bukkit:bukkit:1.13-R0.1-SNAPSHOT'
+    // Common
     compile project(':placeholdersplus-common')
+
+    // Text
+    compile 'net.kyori:text-adapter-bukkit:3.0.3'
+
+    // Platform
+    compileOnly 'org.bukkit:bukkit:1.14.4-R0.1-SNAPSHOT'
 }
 
 jar {
@@ -14,7 +20,8 @@ jar {
 }
 
 shadowJar {
-    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.bukkit.hook'
+    relocate 'dev.vankka.placeholdersplus.hook', 'dev.vankka.placeholdersplus.plugin.bukkit.hook'
+    relocate 'net.kyori', 'dev.vankka.placeholdersplus.plugin.bukkit.dependencies.net.kyori'
 }
 
 processResources {

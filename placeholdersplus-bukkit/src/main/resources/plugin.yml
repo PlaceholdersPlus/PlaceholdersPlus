@@ -1,5 +1,16 @@
-main: me.vankka.placeholdersplus.plugin.bukkit.PlaceholdersPlusBukkit
+main: dev.vankka.placeholdersplus.plugin.bukkit.PlaceholdersPlusBukkit
 name: PlaceholdersPlus
 version: @VERSION@
 author: Vankka
 api-version: 1.13
+
+commands:
+  placeholdersplus:
+    aliases: ["pplus"]
+    description: Main command for PlaceholdersPlus
+
+permissions:
+  placeholdersplus.download.base:
+    default: op
+  placeholdersplus.download.full:
+    default: op

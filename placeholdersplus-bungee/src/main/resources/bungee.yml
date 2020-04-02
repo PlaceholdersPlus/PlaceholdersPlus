@@ -1,4 +1,4 @@
-main: me.vankka.placeholdersplus.plugin.bungee.PlaceholdersPlusBungee
+main: dev.vankka.placeholdersplus.plugin.bungee.PlaceholdersPlusBungee
 name: PlaceholdersPlus
 version: @VERSION@
 author: Vankka

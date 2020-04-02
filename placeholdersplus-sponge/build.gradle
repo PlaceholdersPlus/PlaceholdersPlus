@@ -4,8 +4,17 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'org.spongepowered:spongeapi:7.0.0'
+    // Common
     compile project(':placeholdersplus-common')
+
+    // Text
+    compile 'net.kyori:text-adapter-spongeapi:3.0.3'
+
+    // Platform
+    compileOnly 'org.spongepowered:spongeapi:7.0.0'
+
+    // Annotations
+    compileOnly 'org.jetbrains:annotations:18.0.0'
 }
 
 jar {
@@ -13,7 +22,8 @@ jar {
 }
 
 shadowJar {
-    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.sponge.hook'
+    relocate 'dev.vankka.placeholdersplus.hook', 'dev.vankka.placeholdersplus.plugin.sponge.hook'
+    relocate 'net.kyori', 'dev.vankka.placeholdersplus.plugin.sponge.dependencies.net.kyori'
 }
 
 sponge.plugin.id = 'placeholdersplus'

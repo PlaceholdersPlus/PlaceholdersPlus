@@ -10,9 +10,10 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots' } // Bukkit
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' } // Bungeecord
+        maven { url 'https://oss.sonatype.org/content/groups/public' } // Bungeecord
         maven { url 'https://repo.velocitypowered.com/snapshots/' } // Velocity
-        maven { url 'https://repo.spongepowered.org/maven' } // Sponge
+        maven { url 'https://repo.nukkitx.com/maven-snapshots/' } // Nukkit
+        maven { url 'https://repo.spongepowered.org/maven' } // Sponge + Config
         maven { url 'https://jitpack.io' }
     }
 }

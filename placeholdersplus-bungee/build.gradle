@@ -5,8 +5,17 @@ plugins {
 import org.apache.tools.ant.filters.ReplaceTokens
 
 dependencies {
-    compileOnly 'net.md-5:bungeecord-api:1.13-SNAPSHOT'
+    // Common
     compile project(':placeholdersplus-common')
+
+    // Text
+    compile 'net.kyori:text-adapter-bungeecord:3.0.3'
+
+    // Platform
+    compileOnly 'net.md-5:bungeecord-api:1.15-SNAPSHOT'
+
+    // Annotations
+    compileOnly 'org.jetbrains:annotations:18.0.0'
 }
 
 jar {
@@ -14,7 +23,8 @@ jar {
 }
 
 shadowJar {
-    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.bungee.hook'
+    relocate 'dev.vankka.placeholdersplus.hook', 'dev.vankka.placeholdersplus.plugin.bungee.hook'
+    relocate 'net.kyori', 'dev.vankka.placeholdersplus.plugin.bungee.dependencies.net.kyori'
 }
 
 processResources {

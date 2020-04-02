@@ -1,11 +1,19 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '4.0.3'
+    id 'net.kyori.blossom' version '1.1.0'
 }
 
 dependencies {
-    annotationProcessor 'com.velocitypowered:velocity-api:1.0-SNAPSHOT'
-    compileOnly 'com.velocitypowered:velocity-api:1.0-SNAPSHOT'
-    compile project(':placeholdersplus-common')
+    // Common
+    compile(project(':placeholdersplus-common')) { exclude group: 'net.kyori' }
+
+    // Platform
+    String velocityApi = 'com.velocitypowered:velocity-api:1.1.0-SNAPSHOT'
+    annotationProcessor velocityApi
+    compileOnly velocityApi
+
+    // Annotations
+    compileOnly 'org.jetbrains:annotations:18.0.0'
 }
 
 jar {
@@ -13,5 +21,11 @@ jar {
 }
 
 shadowJar {
-    relocate 'me.vankka.placeholdersplus.hook', 'me.vankka.placeholdersplus.plugin.velocity.hook'
+    relocate 'dev.vankka.placeholdersplus.hook', 'dev.vankka.placeholdersplus.plugin.velocity.hook'
+    // kyori is already included :sunglasses:
+}
+
+blossom {
+    def main = 'src/main/java/dev/vankka/placeholdersplus/plugin/velocity/PlaceholdersPlusVelocity'
+    replaceToken '@VERSION@', project.version, main
 }
